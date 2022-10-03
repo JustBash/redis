@@ -1,0 +1,106 @@
+## bin/bash
+
+reset
+
+startRedis() {
+    echo "Start redis? [y/N]"
+    sleep 2
+    echo "To start in Background, answer with screen"
+    read startRedis
+
+    if [ $startRedis == "y" ]; then
+        redis-server
+    elif [ $startRedis == "screen" ]; then
+        if ! dpkg -s screen; then
+            echo "No screen found!"
+            echo "Installing..."
+            apt install screen -y
+        fi
+
+        clear
+
+        screen -S Redis redis-server
+    else
+        exit
+    fi
+}
+
+echo "What do?"
+read WhatDo
+
+clear
+
+if [ $WhatDo == "start" ]; then
+    startRedis
+    exit
+elif [ $WhatDo == "setup" ]; then
+    echo "Which directory include redis?"
+elif [ $WhatDo == "uninstall" ]; then
+    echo "Which directory should include redis?"
+else
+    echo "Invalid input!"
+    sleep 2
+    echo "Use start, install or uninstall"
+    exit
+fi
+
+sleep 2
+echo "Tip: Type . to mean the current diretory"
+read RedisHome
+
+clear
+
+if [ $WhatDo == "setup" ]; then
+    if ! [ -f 7.0.5.tar.gz ]; then
+        wget https://github.com/redis/redis/archive/7.0.5.tar.gz
+    fi
+
+    clear
+
+    if [ -f 7.0.5.tar ]; then
+        rm -r 7.0.5.tar
+    fi
+
+    gunzip 7.0.5.tar.gz
+    tar xvf 7.0.5.tar
+    mv redis-7.0.5 $RedisHome
+    cd $RedisHome
+    rm -r .g* .c* *.md
+    rm -r 00-RELEASENOTES BUGS COPYING INSTALL MANIFESTO
+
+    clear
+
+    make install
+
+    clear
+
+    echo "Done! Run redis-server to start redis..."
+    sleep 2
+
+    startRedis
+
+    exit
+elif [ $WhatDo == "uninstall" ]; then
+    
+    echo "Warning! Be sure, that redis is offline!"
+    sleep 2
+    echo "Test this with screen -r, if redis run in background"
+
+    if ! [ $RedisHome ]; then
+        echo "Redis not found!"
+        sleep 2
+        echo "Be sure, that the specified directory include the redis instance"
+        sleep 3
+        reset
+        exit
+    fi
+
+    rm -r $RedisHome/*/*
+    rm -r $RedisHome/*
+    rm -r $RedisHome
+
+    clear
+
+    echo "Successfully uninstalled!"
+    exit
+fi
