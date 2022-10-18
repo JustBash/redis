@@ -34,9 +34,9 @@ if [ $WhatDo == "start" ]; then
     startRedis
     exit
 elif [ $WhatDo == "setup" ]; then
-    echo "Which directory include redis?"
-elif [ $WhatDo == "uninstall" ]; then
     echo "Which directory should include redis?"
+elif [ $WhatDo == "uninstall" ]; then
+    echo "Which directory include redis?"
 else
     echo "Invalid input!"
     sleep 2
