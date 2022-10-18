@@ -106,6 +106,13 @@ elif [ $WhatDo == "uninstall" ]; then
     rm -r $RedisHome/*
     rm -r $RedisHome
 
+    rm -r /usr/local/bin/redis-cli
+    rm -r /usr/local/bin/redis-server
+    rm -r /usr/local/bin/redis-sentinel
+    rm -r /usr/local/bin/redis-benchmark
+    rm -r /usr/local/bin/redis-check-aof
+    rm -r /usr/local/bin/redis-check-rdb
+
     clear
 
     echo "Successfully uninstalled!"
