@@ -71,6 +71,11 @@ if [ $WhatDo == "setup" ]; then
     gunzip 7.0.5.tar.gz
     tar xvf 7.0.5.tar
     mv redis-7.0.5/* $RedisHome
+
+    if ! [ whomai == $RedisHome ]; then
+        cd $RedisHome
+    fi
+
     rm -r .g* .c* *.md
     rm -r 00-RELEASENOTES BUGS COPYING INSTALL MANIFESTO
 
