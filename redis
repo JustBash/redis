@@ -3,6 +3,13 @@
 reset
 
 startRedis() {
+    if ! [ -f /usr/local/bin/redis-server ]; then
+        echo "Redis is not installed!"
+        sleep 2
+        echo "Run redis, then setup"
+        exit
+    fi
+
     echo "Start redis? [y/N]"
     sleep 2
     echo "To start in Background, answer with screen"
